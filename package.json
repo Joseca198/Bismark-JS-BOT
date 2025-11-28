@@ -1,0 +1,24 @@
+{
+  "name": "bismark-js",
+  "version": "1.0.0",
+  "description": "\"# Bismark-JS-BOT\"",
+  "main": "Bot/Bismarck.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joseca198/Bismark-JS-BOT.git"
+  },
+  "keywords": [],
+  "author": "Joseca198",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joseca198/Bismark-JS-BOT/issues"
+  },
+  "homepage": "https://github.com/Joseca198/Bismark-JS-BOT#readme",
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3"
+  }
+}
