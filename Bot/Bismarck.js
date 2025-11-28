@@ -27,4 +27,14 @@ client.on("messageCreate", (message) => {
     }
 });
 
+client.on("interactionCreate", (interaccion) => {
+    if (!interaccion.isChatInputCommand()) return;
+
+    console.log("El comando utilizado fue: " + interaccion.commandName);
+
+    if (interaccion.commandName === "registrarse") {
+        interaccion.reply("¡Te has registrado exitosamente! Bienvenido al servidor. :D");
+    }
+});
+
 client.login(process.env.TOKEN);
