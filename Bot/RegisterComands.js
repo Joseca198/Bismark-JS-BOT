@@ -1,10 +1,28 @@
 require("dotenv").config(); 
-const { REST, Routes } = require("discord.js");
+const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
 
 const commands = [
     {
-        name: `registrarse`,
-        description: `Regístrate para tener acceso al servidor.`,
+        name: `sumar`,
+        description: `Suma dos numeros dados por el usuario.`,
+        options: [
+            {
+                name: "numero1",
+                description: "El primer numero a sumar.",
+                type: ApplicationCommandOptionType.Number,
+                required: true,
+            },
+            {
+                name: "numero2",
+                description: "El primer numero a sumar.",
+                type: ApplicationCommandOptionType.Number,
+                required: true,
+            },
+        ],
+    },
+    {
+        name: `embet`,
+        description: `Envía un mensaje embet sobre la persona que lo solicito.`,
     },
 ];
 

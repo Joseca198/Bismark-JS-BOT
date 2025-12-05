@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, IntentsBitField } = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
 
 const client = new Client({
     intents: [
@@ -32,8 +32,17 @@ client.on("interactionCreate", (interaccion) => {
 
     console.log("El comando utilizado fue: " + interaccion.commandName);
 
-    if (interaccion.commandName === "registrarse") {
-        interaccion.reply("¡Te has registrado exitosamente! Bienvenido al servidor. :D");
+    if (interaccion.commandName === "sumar") {
+        var Num1 = interaccion.options.get("numero1").value;
+        var Num2 = interaccion.options.get("numero2").value;
+
+        interaccion.reply(`El resultado de la suma es: ${Num1 + Num2}`);
+    }
+    else if (interaccion.commandName === "embet") {
+        const embed = new EmbedBuilder()
+        .setTitle("Titulo del Embet")
+        .setDescription(`Este es un mensaje embet enviado por ${interaccion.user.username}`);
+        interaccion.reply ({ embeds: [embed] });
     }
 });
 
