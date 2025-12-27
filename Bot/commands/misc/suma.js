@@ -1,6 +1,6 @@
 module.exports = {
-  name: 'ping',
-  description: 'Replies with the bot ping!',
+  name: 'suma',
+  description: 'Suma dos numeros',
 
   callback: async (client, interaction) => {
     await interaction.deferReply();
