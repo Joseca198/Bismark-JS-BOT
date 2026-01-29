@@ -8,7 +8,7 @@ module.exports = {
       name: "usuario",
       description: "El usuario a kickear",
       type: ApplicationCommandOptionType.Mentionable,
-      require: true,
+      required: true,
     },
     {
       name: "razon",

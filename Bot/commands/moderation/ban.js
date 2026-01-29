@@ -8,7 +8,7 @@ module.exports = {
       name: "usuario",
       description: "El usuario a banear",
       type: ApplicationCommandOptionType.Mentionable,
-      require: true,
+      required: true,
     },
     {
       name: "razon",
@@ -29,8 +29,7 @@ module.exports = {
 
   callback: async (client, interaction) => {
     const targetUserId = interaction.options.get('usuario').value;
-    const reason =
-      interaction.options.get('razon')?.value || 'Sin razón proveída.';
+    const reason = interaction.options.get('razon')?.value || 'Sin razón proveída.';
 
     await interaction.deferReply();
 
