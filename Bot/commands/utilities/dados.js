@@ -8,16 +8,16 @@ module.exports = {
             name: "caras",
             description: "Las caras que tendra el dado, Entre 2 y 300 caras.",
             type: ApplicationCommandOptionType.Integer,
-            MinValue: 2,
-            MaxValue: 300,
+            minValue: 2,
+            maxValue: 300,
             required: true,
         },
         {
             name: "cantidad",
             description: "cantidad de dados que se van a tirar, Entre 1 y 12 dados.",
             type: ApplicationCommandOptionType.Integer,
-            MinValue: 1,
-            MaxValue: 12,
+            minValue: 1,
+            maxValue: 12,
         }
     ],
 
