@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { Client, IntentsBitField, EmbedBuilder } = require('discord.js');
+const { Client, IntentsBitField } = require('discord.js');
+const { CommandKit } = require('commandkit');
 const eventHandler = require('./handlers/eventHandler');
 
 const client = new Client({
@@ -7,10 +8,18 @@ const client = new Client({
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
         IntentsBitField.Flags.GuildMessages,
-        IntentsBitField.Flags.MessageContent,
-    ],
+        IntentsBitField.Flags.MessageContent
+    ]
 });
 
-eventHandler(client);
+
+new CommandKit({
+    client,
+    eventsPath: `${__dirname}/events`,
+    //commandsPath: `${__dirname}/commands`
+});
+
+
+// eventHandler(client);
 
 client.login(process.env.TOKEN);
