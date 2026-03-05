@@ -18,10 +18,6 @@ module.exports = async (client, guildMember) => {
         // Busca el canal de reglas del servidor (si tiene uno configurado)
         const rulesChannel = guildMember.guild.rulesChannel;
 
-        // log de control para ver si se encuentra el canal de reglas y bienvenida
-        console.log(`Canal de reglas encontrado: ${rulesChannel ? rulesChannel.name : 'No se encontró canal de reglas'}`);
-        console.log(`Canal de bienvenida encontrado: ${systemChannel ? systemChannel.name : 'No se encontró canal de bienvenida'}`);
-
         // Obtiene el avatar del miembro, si no tiene usa el predeterminado
         const avatarURL = guildMember.user.displayAvatarURL({ dynamic: true });
 
