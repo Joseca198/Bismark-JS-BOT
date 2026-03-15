@@ -2,7 +2,7 @@
   "name": "bismark-js",
   "version": "1.0.0",
   "description": "\"# Bismark-JS-BOT\"",
-  "main": "Bot/Bismarck.js",
+  "main": "Bot/Index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
