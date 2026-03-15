@@ -1,4 +1,4 @@
-const { testServer } = require("../../../config.json");
+const { testServer } = require('../../../config.json');
 const areCommandsDifferent = require('../../utils/areCommandsDifferent');
 const getApplicationCommands = require('../../utils/getApplicationCommands');
 const getLocalCommands = require('../../utils/getLocalCommands');
@@ -6,53 +6,51 @@ const getLocalCommands = require('../../utils/getLocalCommands');
 module.exports = async (client) => {
   try {
     const localCommands = getLocalCommands();
-    
-    // 1. Obtenemos el gestor de comandos Globales (para todos los servidores)
-    const globalApplicationCommands = await getApplicationCommands(client);
-    
-    // 2. Obtenemos el gestor de comandos Locales (solo para tu servidor de pruebas)
-    const testApplicationCommands = await getApplicationCommands(client, testServer);
+    const applicationCommands = await getApplicationCommands(
+      client,
+      testServer
+    );
 
     for (const localCommand of localCommands) {
-      const { name, description, options, deleted, testOnly } = localCommand;
+      const { name, description, options } = localCommand;
 
-      // Determinamos a qué entorno enviaremos este comando específico
-      const targetApplicationCommands = testOnly ? testApplicationCommands : globalApplicationCommands;
-      const entorno = testOnly ? 'Local (Pruebas)' : 'Global (Producción)';
-
-      const existingCommand = await targetApplicationCommands.cache.find(
+      const existingCommand = await applicationCommands.cache.find(
         (cmd) => cmd.name === name
       );
 
       if (existingCommand) {
-        if (deleted) {
-          await targetApplicationCommands.delete(existingCommand.id);
-          console.log(`🗑 Comando Eliminado "${name}" de entorno ${entorno}.`);
+        if (localCommand.deleted) {
+          await applicationCommands.delete(existingCommand.id);
+          console.log(`🗑 Comando Eliminado: "${name}".`);
           continue;
         }
 
         if (areCommandsDifferent(existingCommand, localCommand)) {
-          await targetApplicationCommands.edit(existingCommand.id, {
+          await applicationCommands.edit(existingCommand.id, {
             description,
             options,
           });
-          console.log(`🔁 Comando Editado "${name}" en entorno ${entorno}.`);
+
+          console.log(`🔁 Comando Editado: "${name}".`);
         }
       } else {
-        if (deleted) {
-          console.log(`⏩ Saltando comando "${name}" porque fue marcado como eliminado.`);
+        if (localCommand.deleted) {
+          console.log(
+            `⏩ Omitiendo registro del comando "${name}" ya que está marcado para eliminar.`
+          );
           continue;
         }
 
-        await targetApplicationCommands.create({
+        await applicationCommands.create({
           name,
           description,
           options,
         });
-        console.log(`👍 Comando Registrado "${name}" en entorno ${entorno}.`);
+
+        console.log(`👍 Comando Registrado: "${name}".`);
       }
     }
   } catch (error) {
-    console.log(`Error al registrar comandos: ${error}`);
+    console.log(`There was an error: ${error}`);
   }
 };
