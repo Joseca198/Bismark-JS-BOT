@@ -1,5 +1,6 @@
-const {client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
+const {client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, ChannelType} = require('discord.js');
 const { permissionsRequired } = require('../moderation/ban');
+
 
 module.exports = {
     name: "set-welcome-channel",
@@ -13,12 +14,22 @@ module.exports = {
         }
     ],
     permissionsRequired: [PermissionFlagsBits.ManageGuild], // Requiere permiso de gestionar el servidor
-    botPermissions: [PermissionFlagsBits.ManageGuild], // El bot también necesita este permiso
     devOnly: true, // Solo para desarrolladores
+
+    /**
+     * @param {Client} client
+     */
 
     callback: async (client, interaction) => {
         const channel = interaction.options.getChannel("channel");
 
-        // Aquí iría la lógica para establecer el canal de bienvenida
+        // Validar que el canal sea de texto
+        if (channel.type !== ChannelType.GuildText) {
+            await interaction.reply({
+                content: "El canal seleccionado debe ser de texto.",
+                ephemeral: true
+            });
+            return;
+        }
     }
 };
