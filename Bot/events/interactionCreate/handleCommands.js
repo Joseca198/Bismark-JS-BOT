@@ -1,4 +1,4 @@
-const { devs, testServer } = require('../../../config.json');
+const { devs, server } = require('../../../config.json');
 const getLocalCommands = require('../../utils/getLocalCommands');
 
 module.exports = async (client, interaction) => {
@@ -23,7 +23,7 @@ module.exports = async (client, interaction) => {
       }
     }
 
-    if (interaction.guild?.id !== testServer) {
+    if (interaction.guild?.id !== server) {
     await interaction.reply({
       content: 'Este bot no está disponible en este servidor.',
       ephemeral: true,
