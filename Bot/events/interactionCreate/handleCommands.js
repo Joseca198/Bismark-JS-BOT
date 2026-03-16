@@ -15,7 +15,7 @@ module.exports = async (client, interaction) => {
 
     if (commandObject.devOnly) {
       if (!devs.includes(interaction.member.id)) {
-        interaction.reply({
+        await interaction.reply({
           content: 'Solo desarrolladores pueden utilizar este comando.',
           ephemeral: true,
         });
@@ -25,7 +25,7 @@ module.exports = async (client, interaction) => {
 
     if (commandObject.testOnly) {
       if (!(interaction.guild.id === testServer)) {
-        interaction.reply({
+        await interaction.reply({
           content: 'Este comando no puede ser utilizado aquí.',
           ephemeral: true,
         });
@@ -36,7 +36,7 @@ module.exports = async (client, interaction) => {
     if (commandObject.permissionsRequired?.length) {
       for (const permission of commandObject.permissionsRequired) {
         if (!interaction.member.permissions.has(permission)) {
-          interaction.reply({
+          await interaction.reply({
             content: 'No se tienen permisos para ejecutar este comando.',
             ephemeral: true,
           });
@@ -50,7 +50,7 @@ module.exports = async (client, interaction) => {
         const bot = interaction.guild.members.me;
 
         if (!bot.permissions.has(permission)) {
-          interaction.reply({
+          await interaction.reply({
             content: "El bot no tiene permisos para ejecutar este comando.",
             ephemeral: true,
           });
