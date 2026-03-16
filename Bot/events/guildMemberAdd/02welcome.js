@@ -1,24 +1,26 @@
 const { EmbedBuilder } = require('discord.js');
+const { getConfig } = require('../../utils/config');
 
 /**
- * 
  * @param {*} client 
  * @param {import('discord.js').GuildMember} guildMember 
- * @returns 
  */
-
 module.exports = async (client, guildMember) => {
     try {
-        // Obtiene la configuración del canal de bienvenida del servidor
-        const systemChannel = guildMember.guild.systemChannel;
+        const config = getConfig();
 
-        // Si el servidor no tiene canal de bienvenida configurado, se cancela
-        if (!systemChannel) return;
+        // Si no hay canal de bienvenida configurado, se cancela
+        if (!config.welcomeChannel) return;
 
-        // Busca el canal de reglas del servidor (si tiene uno configurado)
+        // Buscar el canal, si fue borrado cache.get() devuelve undefined
+        const welcomeChannel = guildMember.guild.channels.cache.get(config.welcomeChannel);
+
+        if (!welcomeChannel) {
+            console.log('El canal de bienvenida configurado ya no existe.');
+            return;
+        }
+
         const rulesChannel = guildMember.guild.rulesChannel;
-
-        // Obtiene el avatar del miembro, si no tiene usa el predeterminado
         const avatarURL = guildMember.user.displayAvatarURL({ dynamic: true });
 
         const embed = new EmbedBuilder()
@@ -34,8 +36,7 @@ module.exports = async (client, guildMember) => {
                 iconURL: avatarURL,
             });
 
-        await systemChannel.send({ embeds: [embed] });
-
+        await welcomeChannel.send({ embeds: [embed] });
     } catch (error) {
         console.log(`Error al enviar bienvenida: ${error}`);
     }
