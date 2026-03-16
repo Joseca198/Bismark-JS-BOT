@@ -1,6 +1,5 @@
-const {client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, ChannelType} = require('discord.js');
-const { permissionsRequired } = require('../moderation/ban');
-
+const {client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, ChannelType, MessageFlags } = require('discord.js');
+const { getConfig, saveConfig } = require('../../utils/config');
 
 module.exports = {
     name: "set-welcome-channel",
@@ -14,7 +13,6 @@ module.exports = {
         }
     ],
     permissionsRequired: [PermissionFlagsBits.ManageGuild], // Requiere permiso de gestionar el servidor
-    devOnly: true, // Solo para desarrolladores
 
     /**
      * @param {Client} client
@@ -28,9 +26,25 @@ module.exports = {
         if (channel.type !== ChannelType.GuildText) {
             await interaction.reply({
                 content: "El canal seleccionado debe ser de texto.",
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
             return;
+        }
+
+        try {
+            const config = getConfig();
+            config.welcomeChannel = channel.id;
+            saveConfig(config);
+            await interaction.reply({
+                content: `Canal de bienvenida establecido a ${channel}.`,
+                flags: MessageFlags.Ephemeral
+            });
+        }catch (error) {
+            console.error("Error al guardar la configuración:", error);
+            await interaction.reply({
+                content: "Hubo un error al guardar la configuración. Por favor, inténtalo de nuevo.",
+                flags: MessageFlags.Ephemeral
+            });
         }
     }
 };
