@@ -5,9 +5,13 @@ const { getConfig } = require('../../utils/config');
  * @param {*} client 
  * @param {import('discord.js').GuildMember} guildMember 
  */
+
 module.exports = async (client, guildMember) => {
     try {
         const config = getConfig();
+
+        // Si el usuario es un bot no dar bienvenida
+        if (guildMember.user.bot) return;
 
         // Si no hay canal de bienvenida configurado, se cancela
         if (!config.welcomeChannel) return;
