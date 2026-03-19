@@ -27,7 +27,6 @@ module.exports = {
         }
     ],
     permissionsRequired: [PermissionFlagsBits.ManageGuild], // Requiere permiso de gestionar el servidor
-    devOnly: true, // Solo para desarrolladores
     
     /**
      * @param {Client} client
