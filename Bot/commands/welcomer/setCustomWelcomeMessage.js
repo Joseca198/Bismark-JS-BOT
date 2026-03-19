@@ -44,7 +44,7 @@ module.exports = {
         // si todas estan vacias entonces tira un mensaje de ayuda
         if (!title && !description && !footer && !color) {
             return interaction.reply({ 
-                content: "Para tu mensaje de bienvenida debes proporcionar al menos un campo. Algunas templates: {member-mention}, {server-name}, {member-name}, {member-count}, {rules-channel}. Ejemplo: `¡Bienvenido {member-mention} a {server-name}! Ahora somos {member-count} miembros.` ", 
+                content: "Para tu mensaje de bienvenida debes proporcionar al menos un campo. Algunas templates: {mention-member}, {server-name}, {username}, {member-count}, {rules-channel}. Ejemplo: `¡Bienvenido {member-mention} a {server-name}! Ahora somos {member-count} miembros.` ", 
                 flags: MessageFlags.Ephemeral 
             });
         }

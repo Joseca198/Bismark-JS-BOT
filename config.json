@@ -4,5 +4,9 @@
   "devs": [
     "864334732056723547"
   ],
-  "welcomeChannel": "1412946649705353256"
+  "welcomeChannel": "1412946649705353256",
+  "customWelcomeMessage": {
+    "description": "Hallo {member-mention}, esperamos que disfrutes tu estadia en este pequeño imperio. lee los canales de reglas y diviertete.",
+    "footer": "Eres el miembro {member-count}."
+  }
 }
