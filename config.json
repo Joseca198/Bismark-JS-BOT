@@ -9,5 +9,8 @@
     "description": "Hallo {member-mention}, esperamos que disfrutes tu estadia en este pequeño imperio. lee los canales de reglas y diviertete.",
     "footer": "Eres el miembro {member-count}.",
     "title": "🎉 ¡Bienvenido/a {username} al Imperio Aleman! 🎉"
+  },
+  "welcomeImageTexts": {
+    "title": "!Willkommen¡"
   }
 }

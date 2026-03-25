@@ -1,6 +1,8 @@
 const { createCanvas, loadImage } = require('canvas');
 const path = require('path');
 const getAllFiles = require('../utils/getAllFiles');
+const { getConfig } = require('../utils/config'); 
+const replaceTemplates = require('../utils/replaceTemplates');
 
 const IMAGES_PATH = path.join(__dirname, '../../assets/images/welcome-images');
 
@@ -15,24 +17,41 @@ function getWelcomeImages() {
 
 async function generateWelcomeImage(guildMember, color) {
     const imageFiles = getWelcomeImages();
+    const { welcomeImageTexts = {} } = getConfig(); // 👈 leer config guardada
 
-    // 1️⃣ Cargar fondo PRIMERO para obtener sus dimensiones reales
+    // Textos y colores con fallbacks
+   const title = replaceTemplates(
+        welcomeImageTexts.title || '¡Bienvenido/a',
+        guildMember
+    );
+    const description = replaceTemplates(
+        welcomeImageTexts.description || '{username}',
+        guildMember
+    );
+    const footer = replaceTemplates(
+        welcomeImageTexts.footer || '{server-name}',
+        guildMember
+    );
+    const titleColor       = welcomeImageTexts.titleColor       || '#FFFFFF';
+    const descriptionColor = welcomeImageTexts.descriptionColor || '#FFFFFF';
+    const footerColor      = welcomeImageTexts.footerColor      || '#CCCCCC';
+    const avatarBorderColor = welcomeImageTexts.avatarBorderColor || '#FFFFFF';
+
+    // --- Canvas (igual que antes) ---
     let bgImage = null;
-    let canvasWidth = 800;   // fallback si no hay imagen
+    let canvasWidth = 800;
     let canvasHeight = 300;
 
     if (imageFiles.length > 0) {
         const randomFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
         bgImage = await loadImage(randomFile);
-        canvasWidth = bgImage.width;    // 👈 dimensiones reales del fondo
+        canvasWidth  = bgImage.width;
         canvasHeight = bgImage.height;
     }
 
-    // 2️⃣ Crear el canvas con las dimensiones del fondo
     const canvas = createCanvas(canvasWidth, canvasHeight);
     const ctx = canvas.getContext('2d');
 
-    // Fondo
     if (bgImage) {
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
     } else {
@@ -40,18 +59,29 @@ async function generateWelcomeImage(guildMember, color) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Overlay
     ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 3️⃣ Medidas relativas al canvas para que escalen en cualquier resolución
     const minDim = Math.min(canvas.width, canvas.height);
+    const centerX = canvas.width / 2;
+
+    // Distribuir verticalmente según qué textos hay activos
+    const avatarCenterY = canvas.height / 2 + Math.round(minDim * 0.05);
+
     const avatarSize = Math.round(minDim * 0.38);
     const fontSize   = Math.round(minDim * 0.07);
-    const centerX    = canvas.width / 2;
-    const avatarCenterY = canvas.height / 2 - Math.round(minDim * 0.05);
 
-    // Avatar circular
+    // --- Título (encima del avatar) ---
+    
+    ctx.fillStyle = titleColor;
+    ctx.font = `bold ${Math.round(fontSize * 0.75)}px Sans`;
+    ctx.textAlign = 'center';
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 6;
+    ctx.fillText(title, centerX, avatarCenterY - avatarSize / 2 - Math.round(minDim * 0.04));
+
+
+    // --- Avatar circular ---
     const avatarURL = guildMember.user.displayAvatarURL({ extension: 'png', size: 256 });
     const avatar = await loadImage(avatarURL);
 
@@ -67,24 +97,27 @@ async function generateWelcomeImage(guildMember, color) {
     );
     ctx.restore();
 
-    // Borde del avatar
+    // Borde del avatar 👈 ahora usa avatarBorderColor
     ctx.beginPath();
     ctx.arc(centerX, avatarCenterY, avatarSize / 2 + 3, 0, Math.PI * 2);
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = Math.round(minDim * 0.012); // 👈 también escala
+    ctx.strokeStyle = avatarBorderColor;
+    ctx.lineWidth = Math.round(minDim * 0.012);
     ctx.stroke();
 
-    // Nombre
-    ctx.fillStyle = '#FFFFFF';
+    // --- Descripción (debajo del avatar) ---
+    ctx.fillStyle = descriptionColor;
     ctx.font = `bold ${fontSize}px Sans`;
     ctx.textAlign = 'center';
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowBlur = 6;
-    ctx.fillText(
-        guildMember.displayName,
-        centerX,
-        avatarCenterY + avatarSize / 2 + fontSize + Math.round(minDim * 0.02)
-    );
+    ctx.fillText(description, centerX, avatarCenterY + avatarSize / 2 + fontSize + Math.round(minDim * 0.02));
+
+    // --- Footer (abajo del todo) ---
+    ctx.fillStyle = footerColor;
+    ctx.font = `${Math.round(fontSize * 0.6)}px Sans`;
+    ctx.textAlign = 'center';
+    ctx.shadowBlur = 4;
+    ctx.fillText(footer, centerX, canvas.height - Math.round(minDim * 0.04));
 
     return canvas.toBuffer('image/png');
 }
