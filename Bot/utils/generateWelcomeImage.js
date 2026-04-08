@@ -74,7 +74,7 @@ async function generateWelcomeImage(guildMember, color) {
     // --- Título (encima del avatar) ---
     
     ctx.fillStyle = titleColor;
-    ctx.font = `bold ${Math.round(fontSize * 0.75)}px Sans`;
+    ctx.font = `bold ${Math.round(fontSize)}px Sans`;
     ctx.textAlign = 'center';
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowBlur = 6;
@@ -106,7 +106,7 @@ async function generateWelcomeImage(guildMember, color) {
 
     // --- Descripción (debajo del avatar) ---
     ctx.fillStyle = descriptionColor;
-    ctx.font = `bold ${fontSize}px Sans`;
+    ctx.font = `bold ${fontSize*0.75}px Sans`;
     ctx.textAlign = 'center';
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowBlur = 6;

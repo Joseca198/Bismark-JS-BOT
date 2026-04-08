@@ -11,6 +11,7 @@
     "title": "🎉 ¡Bienvenido/a {username} al Imperio Aleman! 🎉"
   },
   "welcomeImageTexts": {
-    "title": "!Willkommen¡"
+    "title": "!Willkommen¡",
+    "avatarBorderColor": "#D4AF37"
   }
 }
