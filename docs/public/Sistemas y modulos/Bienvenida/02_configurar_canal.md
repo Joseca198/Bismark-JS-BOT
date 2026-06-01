@@ -51,7 +51,11 @@
 
 ### ⚙️ Parámetros
 
-_Este comando no requiere parámetros._
+
+|**Parámetro**|**Tipo**|**Obligatorio**|**Descripción**|
+|---|---|---|---|
+|_Ninguno_|-|-|Este comando no requiere ningún parámetro para funcionar.|
+
 
 ### 🚀 Uso y Ejemplos
 
