@@ -14,7 +14,7 @@ module.exports = {
     callback: async (client, interaction) => {
         const config = getConfig();
 
-        if (!config.customWelcomeMessage) {
+        if (!config.welcomeImageTexts) {
             await interaction.reply({
                 content: "No hay textos de bienvenida personalizados configurados.",
                 flags: MessageFlags.Ephemeral
@@ -22,7 +22,7 @@ module.exports = {
             return;
         }
 
-        delete config.customWelcomeMessage;
+        delete config.welcomeImageTexts;
         saveConfig(config);
 
         await interaction.reply({
