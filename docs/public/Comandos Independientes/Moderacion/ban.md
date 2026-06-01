@@ -1,7 +1,7 @@
 
-# /kick
+# /ban
 
-> **Descripción:** Sanciona a un miembro con una expulsión del servidor.
+> **Descripción:** Sanciona a un miembro con una expulsión permanente del servidor.
 Parámetros:
 
 
@@ -9,8 +9,8 @@ Parámetros:
 
 | **Requisito**            | **Detalle**                                                  |
 | ------------------------ | ------------------------------------------------------------ |
-| **Permisos del Usuario** | `KICK_MEMBERS` (Banear Miembros)                             |
-| **Permisos del Bot**     | `KICK_MEMBERS` o `ADMINISTRATOR`                             |
+| **Permisos del Usuario** | `BAN_MEMBERS` (Banear Miembros)                              |
+| **Permisos del Bot**     | `BAN_MEMBERS` o `ADMINISTRATOR`                              |
 | **Jerarquía**            | El objetivo debe tener un rol inferior al ejecutor y al bot. |
 
 ## ⚙️ Parámetros
@@ -23,13 +23,13 @@ Parámetros:
 
 ### Sintaxis
 
-`/kick usuario:<mencion_o_id> [razon:<texto>]`
+`/ban usuario:<mencion_o_id> [razon:<texto>]`
 
 ### Ejemplos
 
-> [!EXAMPLE] Caso común `/kick usuario:@Juanito razon:Incumplimiento reiterado de las normas.`
+> [!EXAMPLE] Caso común `/ban usuario:@Juanito razon:Incumplimiento reiterado de las normas.`
 
-> [!EXAMPLE] Sin motivo `/kick usuario:7823912038102` (Uso mediante ID de usuario)
+> [!EXAMPLE] Sin motivo `/ban usuario:7823912038102` (Uso mediante ID de usuario)
 
 ---
 
@@ -41,7 +41,7 @@ Parámetros:
 >     
 > 2. **Jerarquía de Roles:** ¿El objetivo está por encima del autor o del bot en la lista de roles?
 >     
-> 3. **Estado:** ¿El usuario ya se encuentra fuera del servidor?
+> 3. **Estado:** ¿El usuario ya se encuentra baneado o ha salido del servidor?
 >     
 > 
 > _Si alguna de estas condiciones falla, el comando retornará un mensaje de error detallado._
@@ -49,7 +49,6 @@ Parámetros:
 
 ## 🔗 Relacionados
 
-- [[ban|Comando /ban]]
-    
-- [[unban|Comando /unban]]
+- [[kick|Comando /kick]]
+- [[timeout|Comando /timeout]]
 
